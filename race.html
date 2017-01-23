@@ -34,10 +34,11 @@
     var c = "";
     var timeUntil = "";
 
-    var days = 74;
-    var hours = 1;
-    var minutes = 1;
-    var seconds = 10;
+    var timeUntilDays;
+    var timeUntilHoursMod;
+    var timeUntilMinutesMod;
+    var timeUntilSecondsMod;
+
 
 
     var raceTime = "April 8th 2017 at 8am";
@@ -101,59 +102,37 @@
     $("#days").html(timeUntilDays + "days ");
     $("#hours").html(timeUntilHoursMod + "hr ");
     $("#minutes").html(timeUntilMinutesMod + "min ");
-    $("#seconds").html(timeUntilSecondsMod + "sec ");
-
-
-        
+    $("#seconds").html(timeUntilSecondsMod + "sec "); 
     });
-
-
-
-
-
-
-
-
-
-
-
-
 
     function decreaseSeconds() {
 
-        seconds--;
-        $("#seconds").html(seconds + "sec ");
-        if (seconds === 0) {
-            seconds = 60;
-            minutes--;
-            $("#minutes").html(minutes + "min ");
-            if (minutes === 0) {
-                minutes = 60;
-                $("#minutes").html(minutes + "min ");
-                hours--;
-                $("#hours").html(hours + "hr ");
-                if (hours === 0) {
-                    hours = 24;
-                    $("#hours").html(hours + "hr ");
-                    days--;
-                    $("#days").html(days + "days ");
-
+        timeUntilSecondsMod-- ;
+        $("#seconds").html(timeUntilSecondsMod + "sec ");
+        if (timeUntilSecondsMod === 0) {
+            timeUntilSecondsMod = 60;
+            timeUntilMinutesMod-- ;
+            $("#minutes").html(timeUntilMinutesMod + "min ");
+            if (timeUntilMinutesMod === 0) {
+                timeUntilMinutesMod = 60;
+                $("#minutes").html(timeUntilMinutesMod + "min ");
+                timeUntilHoursMod--;
+                $("#hours").html(timeUntilHoursMod + "hr ");
+                if (timeUntilHoursMod === 0) {
+                    timeUntilHoursMod = 24;
+                    $("#hours").html(timeUntilHoursMod + "hr ");
+                    timeUntilDays--;
+                    $("#days").html(timeUntilDays + "days ");
                 }
             }
-
         }
-
-
-
-
-
     }
 
-    // setInterval(decreaseSeconds, 1000);
+    setInterval(decreaseSeconds, 1000);
 
 
 
-    // setInterval(pushFirebase, 10000);
+    
     </script>
 </body>
 
