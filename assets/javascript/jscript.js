@@ -1,5 +1,11 @@
-
-
+var config = {
+    apiKey: "AIzaSyBTaP-0LgIFFa2gWd6hlKCr8cHEdoVK-2I",
+    authDomain: "therace-ec187.firebaseapp.com",
+    databaseURL: "https://therace-ec187.firebaseio.com",
+    storageBucket: "therace-ec187.appspot.com",
+    messagingSenderId: "490377130712"
+};
+firebase.initializeApp(config);
 
 
 var c = "";
@@ -12,86 +18,51 @@ var seconds = 10;
 
 var raceTime = "April 8th 2017 at 8am";
 
+function showTime() {
+    var thetime = moment().format('MMMM Do YYYY, h:mm:ss a');
+    $("#realtime").html(thetime);
+
+}
+
+setInterval(showTime, 1000);
+
+
+   
+var currentTime = moment();
+console.log(currentTime);
+
+var b = moment([2017, 3, 8]).hour(8);
+console.log(b);
+
+var timeDiff = b.diff(currentTime, "seconds");
+console.log(timeDiff);
+
+ var database = firebase.database();
+    database.ref("/countdown").set({
+      timeTo: timeDiff
+    });
 
 
 
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyBTaP-0LgIFFa2gWd6hlKCr8cHEdoVK-2I",
-    authDomain: "therace-ec187.firebaseapp.com",
-    databaseURL: "https://therace-ec187.firebaseio.com",
-    storageBucket: "therace-ec187.appspot.com",
-    messagingSenderId: "490377130712"
-  };
-  firebase.initializeApp(config);
 
-  
-  var database = firebase.database();
-  database.ref("/countdown").set({
-    days: 74,
-    hours: 24,
-    minutes: 60,
-    seconds: 60
+// trainRef.on("value", function(snapshot) {
 
-  });
-
-
-// var a = moment();
-// var b = moment([2017, 3, 8]);
-// console.log(b); // format is year, month, day
-// c = b.diff(a, 'seconds')
-// console.log(c);
-
-// 74 days
-// if (c > day) // days
-// {
-//     do {
-//         c = c - day;
-//         days++;
-//     }
-//     while (c > day);
-//     console.log("days " + days);
-//   console.log(c);
-// }
+//     days = snapshot.val().days;
+//     hours = snapshot.val().hours;
+//     minutes = snapshot.val().minutes;
+//     seconds = snapshot.val().seconds;
+//     $("#days").html(days + "days ");
+//     $("#hours").html(hours + "hr ");
+//     $("#minutes").html(minutes + "min ");
+//     $("#seconds").html(seconds + "sec ");
+// });
 
 
 
-// if (c > hour) //hours
-// {
-
-//     do {
-//         c = c - hour;
-//         hours++;
-//     }
-//     while (c > day);
-//     console.log("hours: " + hours);
-//       console.log(c);
 
 
-// }
 
 
-// if (c > minute) //minutes
-// {
-//     do {
-//         c = c - minute;
-//         minutes++;
-//     }
-//     while (c > day);
-//     console.log("minutes: " + minutes);
-
-// }
-
-// if (c > seconds) //seconds
-// {
-//     do {
-//         c = c - second;
-//         seconds++;
-//     }
-//     while (c > day);
-//     console.log("minutes: " + seconds);
-
-// }
 $("#days").html(days + "days ");
 $("#hours").html(hours + "hr ");
 $("#minutes").html(minutes + "min ");
@@ -120,6 +91,17 @@ function decreaseSeconds() {
         }
 
     }
+
+
+
+
+
 }
 
 setInterval(decreaseSeconds, 1000);
+
+
+
+// setInterval(pushFirebase, 10000);
+
+

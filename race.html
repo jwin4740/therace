@@ -11,6 +11,7 @@
 </head>
 
 <body>
+    <h3 id="realtime"></h3>
     <div id="timer">
         <p class="timerdisplay" id="days"></p>
         <p class="timerdisplay" id="hours"></p>
@@ -18,7 +19,142 @@
         <p class="timerdisplay" id="seconds"></p>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-    <script src="assets/javascript/jscript.js"></script>
+    <!--  <script src="assets/javascript/jscript.js"></script> -->
+    <script>
+    var config = {
+        apiKey: "AIzaSyBTaP-0LgIFFa2gWd6hlKCr8cHEdoVK-2I",
+        authDomain: "therace-ec187.firebaseapp.com",
+        databaseURL: "https://therace-ec187.firebaseio.com",
+        storageBucket: "therace-ec187.appspot.com",
+        messagingSenderId: "490377130712"
+    };
+    firebase.initializeApp(config);
+
+
+    var c = "";
+    var timeUntil = "";
+
+    var days = 74;
+    var hours = 1;
+    var minutes = 1;
+    var seconds = 10;
+
+
+    var raceTime = "April 8th 2017 at 8am";
+
+    function showTime() {
+        var thetime = moment().format('MMMM Do YYYY, h:mm:ss a');
+        $("#realtime").html(thetime);
+
+    }
+
+    setInterval(showTime, 1000);
+
+
+
+    var currentTime = moment();
+
+
+    var b = moment([2017, 3, 8]).hour(8);
+
+
+    var timeDiffDays = b.diff(currentTime, "days");
+    console.log(timeDiffDays);
+
+    var timeDiffHours = b.diff(currentTime, "hours");
+    console.log(timeDiffHours);
+
+    var timeDiffMinutes = b.diff(currentTime, "minutes");
+    console.log(timeDiffMinutes);
+
+    var timeDiffSeconds = b.diff(currentTime, "seconds");
+    console.log(timeDiffSeconds);
+
+    var database = firebase.database();
+    database.ref("/countdown").set({
+        days: timeDiffDays,
+        hours: timeDiffHours,
+        minutes: timeDiffMinutes,
+        seconds: timeDiffSeconds
+    });
+
+    database.ref("/countdown").on("value", function(snapshot) {
+
+        timeUntilDays = snapshot.val().days;
+        timeUntilHours = snapshot.val().hours;
+        timeUntilMinutes = snapshot.val().minutes;
+        timeUntilSeconds = snapshot.val().seconds;
+
+        timeUntilHoursMod = timeUntilHours % 24;
+        timeUntilMinutesMod = timeUntilMinutes % 60;
+        timeUntilSecondsMod = timeUntilSeconds % 60;
+        console.log("days: " + timeUntilDays);
+        console.log("hours " + timeUntilHoursMod);
+        console.log("minutes " + timeUntilMinutesMod);
+        console.log("seconds " + timeUntilSecondsMod);
+
+
+        var isSeconds = (timeUntilDays * 86400) + (timeUntilHoursMod * 3600) + (timeUntilMinutesMod * 60) + timeUntilSecondsMod;
+        console.log("MODseconds: " + isSeconds);
+
+
+    $("#days").html(timeUntilDays + "days ");
+    $("#hours").html(timeUntilHoursMod + "hr ");
+    $("#minutes").html(timeUntilMinutesMod + "min ");
+    $("#seconds").html(timeUntilSecondsMod + "sec ");
+
+
+        
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function decreaseSeconds() {
+
+        seconds--;
+        $("#seconds").html(seconds + "sec ");
+        if (seconds === 0) {
+            seconds = 60;
+            minutes--;
+            $("#minutes").html(minutes + "min ");
+            if (minutes === 0) {
+                minutes = 60;
+                $("#minutes").html(minutes + "min ");
+                hours--;
+                $("#hours").html(hours + "hr ");
+                if (hours === 0) {
+                    hours = 24;
+                    $("#hours").html(hours + "hr ");
+                    days--;
+                    $("#days").html(days + "days ");
+
+                }
+            }
+
+        }
+
+
+
+
+
+    }
+
+    // setInterval(decreaseSeconds, 1000);
+
+
+
+    // setInterval(pushFirebase, 10000);
+    </script>
 </body>
 
 </html>
