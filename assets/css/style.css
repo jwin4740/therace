@@ -1,0 +1,17 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    
+}
+
+#timer {
+    padding: 10px;
+}
+
+.timerdisplay {
+    display: inline-block;
+    font-size: 32px;
+    font-weight: bolder;
+}
